@@ -11,9 +11,16 @@ pinocchio = { git = "https://github.com/anza-xyz/pinocchio.git" }
 pinocchio-log = { git = "https://github.com/anza-xyz/pinocchio.git" }
 pinocchio-pubkey = { git = "https://github.com/anza-xyz/pinocchio.git" }
 pinocchio-system = { git = "https://github.com/anza-xyz/pinocchio.git" }
+pinocchio-token = "0.4.0"
+pinocchio-associated-token-account = "0.2.0"
+num_enum = "0.7.2"
 const-crypto = "0.3.0"
 shank = "0.4.2"
 bytemuck = { version = "1.23.0", features = ["derive"] }
+steel = "4.0.2"
+brine-tree = "0.6.2"
+crankx = "0.2.2"
+packx = "0.2.5"
 
 [dev-dependencies]
 solana-sdk = "2.2.1"
