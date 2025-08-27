@@ -105,7 +105,7 @@ pub fn update_segment(
 pub fn compute_next_challenge(
     current_challenge: &[u8; 32],
     clock_info: &AccountInfo,
-) -> ProgramResult<[u8; 32]> {
+) -> Result<[u8; 32], ProgramError> {
     let clock = Clock::from_account_info(clock_info)?;
     let slot_bytes = clock.slot.to_le_bytes();
 
