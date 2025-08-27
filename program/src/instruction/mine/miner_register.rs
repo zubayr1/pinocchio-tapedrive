@@ -30,10 +30,10 @@ impl DataLen for RegisterMinerIxData {
 pub fn process_register(accounts: &[AccountInfo], data: &[u8]) -> ProgramResult {
     let [
         signer_info,
-        miner_info,
-        system_program_info, 
+        miner_info,         
         rent_info,
         slot_hashes_info,
+        _system_program_info,
         _remaining @ ..,
     ] = accounts else {
         return Err(ProgramError::NotEnoughAccountKeys);
@@ -79,7 +79,7 @@ pub fn process_register(accounts: &[AccountInfo], data: &[u8]) -> ProgramResult 
 
     let next_challenge = compute_next_challenge(
         &miner_info.key(),
-        slot_hashes_info,
+        &slot_hashes_info,
     )?;
 
     Miner::initialize(
