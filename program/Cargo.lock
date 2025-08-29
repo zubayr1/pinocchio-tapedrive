@@ -3705,6 +3705,7 @@ dependencies = [
 name = "solana-pinocchio-starter"
 version = "0.1.0"
 dependencies = [
+ "blake3",
  "brine-tree",
  "bytemuck",
  "const-crypto",

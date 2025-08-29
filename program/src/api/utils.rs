@@ -11,12 +11,7 @@ use pinocchio::{
 };
 use pinocchio_system::instructions::CreateAccount;
 use core::cmp::min;
-
-pub fn hashv(vals: &[&[u8]]) -> [u8; 32] {
-    let mut hash_result = [0u8; 32];
-    
-    hash_result
-}
+use blake3::Hasher;
 
 #[inline(always)]
 pub fn check_condition<E>(condition: bool, err: E) -> ProgramResult
@@ -104,17 +99,19 @@ pub fn update_segment(
 #[inline(always)]
 pub fn compute_next_challenge(
     current_challenge: &[u8; 32],
-    clock_info: &AccountInfo,
+    slot_hashes_info: &AccountInfo,
 ) -> Result<[u8; 32], ProgramError> {
-    let clock = Clock::from_account_info(clock_info)?;
+
+    let clock = Clock::from_account_info(slot_hashes_info)?;
     let slot_bytes = clock.slot.to_le_bytes();
 
-    let challenge = hashv(&[
-        current_challenge,
-        &slot_bytes,
-    ]);
+    let mut hasher = Hasher::new();
 
-    Ok(challenge)
+    hasher.update(current_challenge);
+    hasher.update(&slot_bytes);
+    let challenge = hasher.finalize();
+
+    Ok(challenge.into())
 }
 
 #[inline(always)]
@@ -122,7 +119,13 @@ pub fn compute_challenge(
     block_challenge: &[u8; 32],
     miner_challenge: &[u8; 32],
 ) -> [u8; 32] {
-    hashv(&[block_challenge, miner_challenge])
+    let mut hasher = Hasher::new();
+
+    hasher.update(block_challenge);
+    hasher.update(miner_challenge);
+    let challenge = hasher.finalize();
+
+    challenge.into()
 }
 
 #[inline(always)]
