@@ -1,9 +1,9 @@
-use steel::*;
-use crate::api::consts::*;
-use crate::state;
 use super::AccountType;
+use bytemuck::{Pod, Zeroable};
+use crate::api::consts::*;
+use crate::api::types::*;
 use crate::state::utils::{DataLen, Initialized, load_acc, load_acc_mut};
-use pinocchio::program_error::ProgramError;
+use pinocchio::{program_error::ProgramError, pubkey::Pubkey};
 
 #[repr(C)] 
 #[derive(Clone, Copy, Debug, PartialEq, Pod, Zeroable)]
@@ -28,7 +28,7 @@ pub struct Tape {
 }
 
 #[repr(u64)]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, IntoPrimitive, TryFromPrimitive)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum TapeState {
     Unknown = 0,
     Created,
@@ -54,6 +54,8 @@ impl Tape {
         unsafe { load_acc_mut::<Tape>(data) }
     }
 }
+
+account!(AccountType, Tape);
 
 //pub fn encode_tape(tape: &Tape, nodes: &[[u8; 32]]) -> Vec<u8> {
 //    let mut out = Vec::with_capacity(core::mem::size_of::<Tape>() + nodes.len() * 32);

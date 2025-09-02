@@ -1,6 +1,5 @@
-use steel::*;
 use super::AccountType;
-use crate::state;
+use bytemuck::{Pod, Zeroable};
 use crate::state::utils::{DataLen, Initialized, load_acc, load_acc_mut};
 use pinocchio::program_error::ProgramError;
 
@@ -26,3 +25,5 @@ impl Treasury {
         unsafe { load_acc_mut::<Treasury>(data) }
     }
 }
+
+account!(AccountType, Treasury);

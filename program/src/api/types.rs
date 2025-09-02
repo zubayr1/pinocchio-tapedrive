@@ -1,8 +1,8 @@
-use steel::*;
 use core::ops::{Deref, Index};
 use crate::api::consts::*;
+use pinocchio::program_error::ProgramError;
 use brine_tree::MerkleTree;
-
+use bytemuck::{Pod, Zeroable};
 pub type SegmentTree = MerkleTree<{SEGMENT_TREE_HEIGHT}>;
 pub type TapeTree = MerkleTree<{TAPE_TREE_HEIGHT}>;
 
@@ -121,4 +121,41 @@ impl Default for ProofPath {
     fn default() -> Self {
         <Self as Zeroable>::zeroed()
     }
+}
+
+pub trait Discriminator {
+    // Required method
+    fn discriminator() -> u8;
+}
+
+pub trait AccountValidation {
+    // Required methods
+    fn assert<F>(&self, condition: F) -> Result<&Self, ProgramError>
+       where F: Fn(&Self) -> bool;
+    fn assert_err<F>(
+        &self,
+        condition: F,
+        err: ProgramError,
+    ) -> Result<&Self, ProgramError>
+       where F: Fn(&Self) -> bool;
+    fn assert_msg<F>(
+        &self,
+        condition: F,
+        msg: &str,
+    ) -> Result<&Self, ProgramError>
+       where F: Fn(&Self) -> bool;
+    fn assert_mut<F>(&mut self, condition: F) -> Result<&mut Self, ProgramError>
+       where F: Fn(&Self) -> bool;
+    fn assert_mut_err<F>(
+        &mut self,
+        condition: F,
+        err: ProgramError,
+    ) -> Result<&mut Self, ProgramError>
+       where F: Fn(&Self) -> bool;
+    fn assert_mut_msg<F>(
+        &mut self,
+        condition: F,
+        msg: &str,
+    ) -> Result<&mut Self, ProgramError>
+       where F: Fn(&Self) -> bool;
 }
