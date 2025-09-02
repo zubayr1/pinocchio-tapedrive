@@ -1,9 +1,8 @@
-use steel::*;
-use crate::state;
-use crate::api::types::*;
 use super::AccountType;
+use bytemuck::{Pod, Zeroable};
+use crate::api::types::*;
 use crate::state::utils::{DataLen, Initialized, load_acc, load_acc_mut};
-use pinocchio::program_error::ProgramError;
+use pinocchio::{program_error::ProgramError, pubkey::Pubkey};
 
 #[repr(C)] 
 #[derive(Clone, Copy, Debug, PartialEq, Pod, Zeroable)]
@@ -39,3 +38,5 @@ impl Spool {
         unsafe { load_acc_mut::<Spool>(data) }
     }
 }
+
+account!(AccountType, Spool);

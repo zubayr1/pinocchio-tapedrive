@@ -1,3 +1,5 @@
+#[macro_use]
+pub mod account;
 pub mod consts;
 pub mod error;
 // pub mod event;
@@ -8,13 +10,12 @@ pub mod rent;
 pub mod state;
 pub mod types;
 pub mod utils;
-pub mod macros;
 
 pub mod prelude {
+    pub use super::account::*;
     pub use super::consts::*;
     pub use super::error::*;
     // pub use super::event::*;
-    pub use super::macros::*;
     pub use super::loaders::*;
     // pub use super::pda::*;
     pub use super::rent::*;

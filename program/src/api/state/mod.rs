@@ -16,10 +16,8 @@ pub use writer::*;
 pub use miner::*;
 pub use spool::*;
 
-use steel::*;
-
 #[repr(u8)]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, IntoPrimitive, TryFromPrimitive)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum AccountType {
     Unknown = 0,
     Archive,
@@ -30,4 +28,10 @@ pub enum AccountType {
     Epoch,
     Block,
     Treasury,
+}
+
+impl Into<u8> for AccountType {
+    fn into(self) -> u8 {
+        self as u8
+    }
 }

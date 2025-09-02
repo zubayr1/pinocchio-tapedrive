@@ -1,9 +1,8 @@
-use steel::*;
-use crate::api::types::*;
-use crate::state;
 use super::AccountType;
+use bytemuck::{Pod, Zeroable};
+use crate::api::types::*;
 use crate::state::utils::{DataLen, Initialized, load_acc, load_acc_mut};
-use pinocchio::program_error::ProgramError;
+use pinocchio::{program_error::ProgramError, pubkey::Pubkey};
 
 #[repr(C)] 
 #[derive(Clone, Copy, Debug, PartialEq, Pod, Zeroable)]
@@ -30,3 +29,5 @@ impl Writer {
         unsafe { load_acc_mut::<Writer>(data) }
     }
 }
+
+account!(AccountType, Writer);

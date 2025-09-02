@@ -1,7 +1,8 @@
-use steel::*;
+use super::AccountType;
+use bytemuck::{Pod, Zeroable};
 use crate::api::consts::*;
 use crate::state::utils::{DataLen, Initialized, load_acc, load_acc_mut, try_from_account_info_mut};
-use pinocchio::{program_error::ProgramError, ProgramResult, account_info::AccountInfo};
+use pinocchio::{program_error::ProgramError, ProgramResult, account_info::AccountInfo, pubkey::Pubkey};
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq, Pod, Zeroable)]
@@ -63,3 +64,5 @@ impl Miner {
         Ok(())
     }
 }
+
+account!(AccountType, Miner);

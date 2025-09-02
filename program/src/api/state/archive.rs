@@ -1,7 +1,6 @@
-use steel::*;
 use super::AccountType;
-use crate::state;
 use crate::state::utils::{DataLen, Initialized, load_acc, load_acc_mut};
+use bytemuck::{Pod, Zeroable};
 use pinocchio::program_error::ProgramError;
 
 #[repr(C)]
@@ -30,3 +29,5 @@ impl Archive {
         unsafe { load_acc_mut::<Archive>(data) }
     }
 }
+
+account!(AccountType, Archive);

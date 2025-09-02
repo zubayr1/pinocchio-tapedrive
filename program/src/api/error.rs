@@ -1,4 +1,3 @@
-use steel::*;
 use pinocchio::program_error::ProgramError;
 
 #[repr(u32)]
